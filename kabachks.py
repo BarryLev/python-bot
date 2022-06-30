@@ -9,9 +9,9 @@ kabachks["Олег"] = ("@oleh0205", dt.datetime(2002, 7, 5))
 kabachks["Роман"] = ("@MrRomchus", dt.datetime(2001, 5, 7))
 kabachks["Сергій"] = ("@Iceberg_01", dt.datetime(2001, 1, 25))
 kabachks["Вова"] = ("@johan_de_matan", dt.datetime(2001, 5, 9))
-kabachks["Мішон"] = ("Ферел", dt.datetime(2000, 4, 3))
+kabachks["Мішон"] = ("@myshko_myshko", dt.datetime(2000, 4, 3))
 kabachks["Артем"] = ("@Slendi505", dt.datetime(2000, 5, 21))
 kabachks["Назік"] = ("@Sneaky_ZZ", dt.datetime(2000, 10, 27))
 
 def get_kabachks():
-  return ', '.join(kabachks.values[0])
+  return ', '.join([tag for tag, _ in kabachks.values()])

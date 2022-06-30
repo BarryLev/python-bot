@@ -6,7 +6,7 @@ import threading as th
 import datetime as dt
 import os
 
-bot = telebot.TeleBot('689876079:AAFRLuj0jp3GHzS25Y2GYFQ39-bBfmM4jAs')
+bot = telebot.TeleBot('5511369584:AAHEvVLCrCZGcF6c9ZZGnP7AniJtMRvKSXQ')
 is_working = False
 timer_pingall = True
 
@@ -15,19 +15,19 @@ def send_message(message):
   global is_working
   if message.text == '/start':
     is_working = True
-    bot.send_message(message.from_user.id, "Починаю свою роботу")
-    with open("id.txt", "w") as f:
-      f.write(str(message.from_user.id))
+    bot.send_message(message.chat.id, "Починаю свою роботу")
+    # with open("id.txt", "w") as f:
+    #   f.write(str(message.from_user.id))
 
   if message.text == '/end':
     is_working = False
-    bot.send_message(message.from_user.id, "Завершую свою роботу")
+    bot.send_message(message.chat.id, "Завершую свою роботу")
 
 @bot.message_handler(commands=['pingall'])
 def send_message(message):
   global timer_pingall
   if is_working and timer_pingall:
-    bot.send_message(message.from_user.id,  "КАБАЧКИ!!! \n" + kab.get_kabachks())
+    bot.send_message(message.chat.id,  "КАБАЧКИ!!! \n" + kab.get_kabachks())
     timer_pingall = False
     th.Timer(60, reset_timer_pingall).start()
 
@@ -39,8 +39,11 @@ def congratulations():
   for key in kab.kabachks:
     birth_day_and_month = dt.datetime(dt.datetime.now().year,
                                       kab.kabachks[key][1].month,
-                                      kab.kabachks[key][1].day)
+                                      kab.kabachks[key][1].day,
+                                      10)
     time_to_run = (birth_day_and_month - dt.datetime.now()).total_seconds()
+    if time_to_run < 0:
+      time_to_run = time_to_run + dt.timedelta(days=365).total_seconds()
     th.Timer( time_to_run,
               brth.congratulate_kabachk,
               [kab.kabachks[key]]).start()
