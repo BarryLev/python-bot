@@ -9,4 +9,4 @@ def congratulate_kabachk(kabachok):
                   "Вітаю тебе з цим прекрасним днем від імені цього "\
                   "бота".format(tag = kabachok[0], years=years)
 
-  print("sex")
+  

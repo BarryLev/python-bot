@@ -6,7 +6,12 @@ import threading as th
 import datetime as dt
 import os
 
-bot = telebot.TeleBot('5511369584:AAHEvVLCrCZGcF6c9ZZGnP7AniJtMRvKSXQ')
+with open("bot_token.txt", "r") as f:
+  bot_token = f.read()
+
+print(bot_token)
+
+bot = telebot.TeleBot(bot_token)
 is_working = False
 timer_pingall = True
 
@@ -44,6 +49,8 @@ def congratulations():
     time_to_run = (birth_day_and_month - dt.datetime.now()).total_seconds()
     if time_to_run < 0:
       time_to_run = time_to_run + dt.timedelta(days=365).total_seconds()
+    if dt.datetime.now().year % 4 == 0:
+      time_to_run = time_to_run + dt.timedelta(days=1).total_seconds()
     th.Timer( time_to_run,
               brth.congratulate_kabachk,
               [kab.kabachks[key]]).start()
