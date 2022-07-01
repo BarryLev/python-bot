@@ -65,11 +65,11 @@ def delay_countdown_hours(countdown_now, time_in_hours):
 def congratulations(message_chat_id):
   for kabachk in kab.kabachks.values():
     time_to_run = countdown_to_function(kabachk)
-    time_to_run = delay_countdown_hours(time_to_run, 10)
+    time_to_run = delay_countdown_hours(time_to_run, 10) # The function will execute at 10:00 AM
     if time_to_run < 0:
-      time_to_run = delay_countdown_days(time_to_run, 365)
+      time_to_run = delay_countdown_days(time_to_run, 365) # If the countdown is negative(this date has passed in this year), the function will execute in the next year
     if is_leap_year():
-      time_to_run = delay_countdown_days(time_to_run, 1)
+      time_to_run = delay_countdown_days(time_to_run, 1) # If this year is leap, add one day to the countdown
     
     th.Timer( time_to_run,
               brth.congratulate_kabachk,
