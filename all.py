@@ -42,10 +42,38 @@ def reset_timer_pingall():
   global timer_pingall
   timer_pingall = True
 
+# Condition to check, whether it is a leap year
+def is_leap_year():
+  return not (dt.datetime.now().year % 4)
+
+# A function, that returns a time to certain month and day of this year in seconds
+def countdown_to_function(needed_datetime):
+  birth_day_and_month = dt.datetime(dt.datetime.now().year,
+                                      needed_datetime.month,
+                                      needed_datetime.day)
+  return (birth_day_and_month - dt.datetime.now()).total_seconds()
+
+# A function, that delays current countdown for certain time in days
+def delay_countdown_days(countdown_now, time_in_days):
+  return countdown_now + dt.timedelta(days=time_in_days).total_seconds()
+
+# A function, that delays current countdown for certain time in hours
+def delay_countdown_hours(countdown_now, time_in_hours):
+  return countdown_now + dt.timedelta(hours=time_in_hours).total_seconds()
+
 # Send the scheduled congratulation message to the group
 def congratulations(message_chat_id):
   for kabachk in kab.kabachks.values():
+    time_to_run = countdown_to_function(kabachk)
+    time_to_run = delay_countdown_hours(time_to_run, 10)
+    if time_to_run < 0:
+      time_to_run = delay_countdown_days(time_to_run, 365)
+    if is_leap_year():
+      time_to_run = delay_countdown_days(time_to_run, 1)
     
+    th.Timer( time_to_run,
+              brth.congratulate_kabachk,
+              [kabachk, message_chat_id]).start()
 
 with open("bot_token.txt", "r") as f:
   congratulations(f.read())
