@@ -17,13 +17,13 @@ timer_pingall = True
 @bot.message_handler(commands=['start', 'end'])
 def send_message(message):
   global is_working
-  if message.text == '/start':
+  if message.text == '/start' or message.text == '/start@Cmokchybot':
     is_working = True
     bot.send_message(message.chat.id, "Починаю свою роботу")
     with open("id.txt", "w") as f:
       f.write(str(message.chat.id))
 
-  if message.text == '/end':
+  if message.text == '/end' or message.text == '/end@Cmokchybot':
     is_working = False
     bot.send_message(message.chat.id, "Завершую свою роботу")
 
