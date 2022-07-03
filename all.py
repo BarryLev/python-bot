@@ -73,7 +73,7 @@ def congratulations(message_chat_id):
     
     th.Timer( time_to_run,
               brth.congratulate_kabachk,
-              [kabachk, message_chat_id]).start()
+              [kabachk, message_chat_id, bot]).start()
 
 with open("bot_token.txt", "r") as f:
   congratulations(f.read())
