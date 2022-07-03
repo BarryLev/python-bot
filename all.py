@@ -19,7 +19,7 @@ def send_message(message):
   global is_working
   if message.text == '/start' or message.text == '/start@Cmokchybot':
     is_working = True
-    bot.send_message(message.chat.id, "Починаю свою роботу")
+    sent_message = bot.send_message(message.chat.id, "Починаю свою роботу")
     with open("id.txt", "w") as f:
       f.write(str(message.chat.id))
 
@@ -64,7 +64,7 @@ def delay_countdown_hours(countdown_now, time_in_hours):
 # Send the scheduled congratulation message to the group
 def congratulations(message_chat_id):
   for kabachk in kab.kabachks.values():
-    time_to_run = countdown_to_function(kabachk)
+    time_to_run = countdown_to_function(kabachk[1])
     time_to_run = delay_countdown_hours(time_to_run, 10) # The function will execute at 10:00 AM
     if time_to_run < 0:
       time_to_run = delay_countdown_days(time_to_run, 365) # If the countdown is negative(this date has passed in this year), the function will execute in the next year
@@ -75,7 +75,7 @@ def congratulations(message_chat_id):
               brth.congratulate_kabachk,
               [kabachk, message_chat_id, bot]).start()
 
-with open("bot_token.txt", "r") as f:
+with open("id.txt", "r") as f:
   congratulations(f.read())
 
 bot.infinity_polling()

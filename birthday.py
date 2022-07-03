@@ -15,7 +15,7 @@ def congratulate_kabachk(kabachok, chat_id, bot):
                   "Вітаю тебе з цим прекрасним днем від імені цього "\
                   "бота".format(tag = kabachok[0], years=years)
 
-  bot.send_message(chat_id, "Починаю свою роботу")
+  bot.send_message(chat_id, congratulate)
 
   th.Timer( calculate_countdown(kabachok),
             congratulate_kabachk,
