@@ -28,7 +28,7 @@ def send_message(message):
       with open("id.txt", "r") as f:
         print("Test_congratulations")
         congratulations_started = True
-        brth.congratulations(f.read())
+        brth.congratulations(f.read(), bot)
 
   if message.text == '/end' or message.text == '/end@Cmokchybot':
     is_working = False
