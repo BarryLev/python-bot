@@ -18,6 +18,6 @@ def get_kabachks():
   return ', '.join([tag for tag, _, _ in kabachks.values()])
 
 def inline_notify_add(message):
-  for _, _, id in kabachks.values():
-    message = message + "[](tg://user?id={id})".format(id)
+  for tag, birthday, id in kabachks.values():
+    message = message + "[](tg://user?id={id})".format(id = id)
   return message

@@ -26,7 +26,6 @@ def send_message(message):
     
     if not congratulations_started:
       with open("id.txt", "r") as f:
-        print("Test_congratulations")
         congratulations_started = True
         brth.congratulations(f.read(), bot)
 
@@ -39,10 +38,13 @@ def send_message(message):
 @bot.message_handler(commands=['pingall'])
 def send_message(message):
   global timer_pingall
-  if is_working and timer_pingall:
-    bot.send_message(message.chat.id,  kab.inline_notify_add("КАБАЧКИ!!!"), "MarkdownV2")
-    timer_pingall = False
-    th.Timer(60, reset_timer_pingall).start()
+  if is_working:
+    if timer_pingall:
+      bot.send_message(message.chat.id, kab.inline_notify_add("КАБАЧКИ "), "MarkdownV2")
+      timer_pingall = False
+      th.Timer(60, reset_timer_pingall).start()
+    else:
+      bot.send_message(message.chat.id, "Пінг на таймауті")
 
 # Resets the timer for "/pingall" command
 def reset_timer_pingall():
