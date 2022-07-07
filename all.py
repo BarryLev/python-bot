@@ -4,9 +4,13 @@ import kabachks as kab
 import telebot
 import threading as th
 import datetime as dt
+import pprint as pp
 
 with open("bot_token.txt", "r") as f:
   bot_token = f.read()
+
+with open("my_id.txt", "r") as f:
+  my_id = f.read()
 
 bot = telebot.TeleBot(bot_token)
 is_working = False
@@ -38,17 +42,39 @@ def send_message(message):
 @bot.message_handler(commands=['pingall'])
 def send_message(message):
   global timer_pingall
+  print(message.from_user.id)
   if is_working:
-    if timer_pingall:
-      bot.send_message(message.chat.id, kab.inline_notify_add("КАБАЧКИ "), "MarkdownV2")
+    if timer_pingall or message.from_user.id == my_id:
+      bot.send_message(message.chat.id, kab.inline_notify_add("КАБАЧКИ\n", True), "MarkdownV2")
       timer_pingall = False
       th.Timer(60, reset_timer_pingall).start()
     else:
       bot.send_message(message.chat.id, "Пінг на таймауті")
 
+@bot.message_handler(commands=['when'])
+def send_message(message):
+  if is_working:
+    splitted_command = message.text.split()
+    if len(splitted_command) == 2:
+      brth.get_time_to_next_birthday(splitted_command[1], message.chat.id, bot)
+    elif len(splitted_command) == 1:
+      try:
+        markup = kab.send_list_of_kabacks()
+        msg = bot.send_message(message.chat.id, "Вибери людину, чий день народження ти хочеш дізнатись", reply_markup=markup)
+        pp.pprint(str(markup.to_json()))
+        bot.register_next_step_handler(msg, brth.send_text_from_message, message.chat.id, bot)
+      except Exception as e:
+        bot.send_message(message.chat.id, "Під час обробки імені сталась помилка, повідомлення було написано вручну")
+    else:
+      bot.send_message(message.chat.id, "Введена неправильна кількість аргументів")
+
 # Resets the timer for "/pingall" command
 def reset_timer_pingall():
   global timer_pingall
   timer_pingall = True
+
+@bot.message_handler(commands=['test'])
+def send_message(message):
+  bot.send_message(message.chat.id, "Тест [Slendi505](tg://user?id=511396241) [slavonch](tg://user?id=618621657)", "MarkdownV2")
 
 bot.infinity_polling()
