@@ -32,7 +32,6 @@ def sort_by_birthday(kabachk):
 def send_text_from_message(msg, message_id, bot):
   get_time_to_next_birthday(msg.text, message_id, bot)
 
-# 
 def get_time_to_next_birthday(name, message_id, bot):
   try:
     birthday = kab.kabachks[name][1]

@@ -1,4 +1,6 @@
+from re import M
 from click import command
+from yaml import parse
 import birthday as brth
 import kabachks as kab
 import telebot
@@ -60,8 +62,9 @@ def send_message(message):
     elif len(splitted_command) == 1:
       try:
         markup = kab.send_list_of_kabacks()
-        msg = bot.send_message(message.chat.id, "Вибери людину, чий день народження ти хочеш дізнатись", reply_markup=markup)
-        pp.pprint(str(markup.to_json()))
+        sent_message = "[{tag}](tg://user?id={id})".format(tag = "Гей", id = message.from_user.id)
+        sent_message = sent_message + ", вибери людину, чий день народження ти хочеш дізнатись"
+        msg = bot.send_message(message.chat.id, sent_message, parse_mode="MarkdownV2", reply_markup=markup)
         bot.register_next_step_handler(msg, brth.send_text_from_message, message.chat.id, bot)
       except Exception as e:
         bot.send_message(message.chat.id, "Під час обробки імені сталась помилка, повідомлення було написано вручну")
@@ -72,9 +75,5 @@ def send_message(message):
 def reset_timer_pingall():
   global timer_pingall
   timer_pingall = True
-
-@bot.message_handler(commands=['test'])
-def send_message(message):
-  bot.send_message(message.chat.id, "Тест [Slendi505](tg://user?id=511396241) [slavonch](tg://user?id=618621657)", "MarkdownV2")
 
 bot.infinity_polling()
