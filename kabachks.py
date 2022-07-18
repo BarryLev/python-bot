@@ -15,9 +15,7 @@ kabachks["Артем"] = ("@Slendi505", dt.datetime(2001, 5, 21), "511396241")
 kabachks["Назік"] = ("@SneakyZZ", dt.datetime(2000, 10, 27), "387310399") #Sneaky_ZZ
 kabachks["Ніка"] = ("@LuunaNueva", dt.datetime(2001, 5, 29), "532513465")
 
-def get_kabachks():
-  return ', '.join([tag for tag, _, _ in kabachks.values()])
-
+# Adds inline notification to the message
 def inline_notify_add(message, write_tags = False):
   for tag, birthday, id in kabachks.values():
     if not write_tags:
@@ -25,7 +23,8 @@ def inline_notify_add(message, write_tags = False):
     message = message + "[{tag}](tg://user?id={id}) ".format(tag = tag, id = id)
   return message
 
-def send_list_of_kabacks():
+# Send list of kabachks to the reply keyboard
+def send_list_of_kabacks_to_keyboard():
   markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, selective=True)
   for name in kabachks:
     markup.add(types.KeyboardButton(name))
