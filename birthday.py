@@ -6,9 +6,9 @@ import asyncio
 def is_datetime_passed(this_datetime, additional_hours):
   if dt.datetime.now().month > this_datetime.month:
     return True
-  elif dt.datetime.now().month == this_datetime.month and dt.datetime.now().day > this_datetime.day:
+  if dt.datetime.now().month == this_datetime.month and dt.datetime.now().day > this_datetime.day:
     return True
-  elif dt.datetime.now().month == this_datetime.month and dt.datetime.now().day == this_datetime.day and dt.datetime.now().hour > additional_hours:
+  if dt.datetime.now().month == this_datetime.month and dt.datetime.now().day == this_datetime.day and dt.datetime.now().hour > additional_hours:
     return True
   return False
 
@@ -36,6 +36,15 @@ def sort_by_birthday(kabachk):
 def send_text_from_message(msg, message_id, bot):
   get_time_to_next_birthday(msg.text, message_id, bot)
 
+# Changes a word's ending, matching to its number
+def get_word_with_correct_ending(number, word_array):
+  if number % 10 == 1:
+    return word_array[0]
+  if 2 <= number % 10 <= 4:
+    return word_array[1]
+  
+  return word_array[2]
+
 # Sends time to next birthday
 def get_time_to_next_birthday(name, message_id, bot):
   try:
@@ -51,12 +60,7 @@ def get_time_to_next_birthday(name, message_id, bot):
     
   days_to_birthday = countdown_to_congratulation(birthday).days
 
-  if days_to_birthday % 10 == 1:
-    days_text = "день"
-  elif 2 <= days_to_birthday % 10 <= 4:
-    days_text = "дні"
-  else:
-    days_text = "днів"
+  days_text = get_word_with_correct_ending(days_to_birthday, ["день","дні","днів"])
 
   second_part_of_message = "До дня народження залишилось {days} {days_text}.".format(days = days_to_birthday, days_text = days_text)
 
@@ -77,6 +81,8 @@ async def wait_to_next_birthday_and_congratulate(message_chat_id, bot, sorted_ka
       years_text = "роки"
     else:
       years_text = "років"
+
+    years_text = get_word_with_correct_ending(years, ["рік", "роки", "років"])
 
     congratulate =  "Сьогодні {tag} постарішав на один рік\n"\
                     "Тепер цьому чоловіку {years} {years_text}\n"\
