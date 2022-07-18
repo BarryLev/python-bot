@@ -36,7 +36,7 @@ def sort_by_birthday(kabachk):
 def send_text_from_message(msg, message_id, bot):
   get_time_to_next_birthday(msg.text, message_id, bot)
 
-# Changes a word's ending, matching to its number
+# Changes a word's ending due to its number
 def get_word_with_correct_ending(number, word_array):
   if number % 10 == 1:
     return word_array[0]
@@ -75,12 +75,6 @@ async def wait_to_next_birthday_and_congratulate(message_chat_id, bot, sorted_ka
     await asyncio.sleep(countdown)
     
     years = countdown_in_years(birthday)
-    if years % 10 == 1:
-      years_text = "рік"
-    elif 2 <= years % 10 <= 4:
-      years_text = "роки"
-    else:
-      years_text = "років"
 
     years_text = get_word_with_correct_ending(years, ["рік", "роки", "років"])
 
