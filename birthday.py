@@ -35,19 +35,19 @@ def sort_by_birthday(kabachk):
 
 # A function, that converts a message to text and sends it to "get_time_to_next_birthday" function
 def send_text_from_message(msg, message_id, bot):
-  get_time_to_next_birthday(msg.text, message_id, bot)
+  send_time_to_next_birthday(msg.text, message_id, bot)
 
 # Changes a word's ending due to its number
 def get_word_with_correct_ending(number, word_array):
+  if 5 <= number % 100 <= 19:
+    return word_array[2]
   if number % 10 == 1:
     return word_array[0]
   if 2 <= number % 10 <= 4:
     return word_array[1]
-  
-  return word_array[2]
 
 # Sends time to next birthday
-def get_time_to_next_birthday(name, message_id, bot):
+def send_time_to_next_birthday(name, message_id, bot):
   try:
     birthday = kab.kabachks[name][1]
   except Exception as e:

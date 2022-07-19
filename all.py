@@ -56,7 +56,7 @@ def send_message(message):
   if is_working:
     splitted_command = message.text.split()
     if len(splitted_command) == 2:
-      brth.get_time_to_next_birthday(splitted_command[1], message.chat.id, bot)
+      brth.send_time_to_next_birthday(splitted_command[1], message.chat.id, bot)
     elif len(splitted_command) == 1:
       try:
         markup = kab.send_list_of_kabacks_to_keyboard()
