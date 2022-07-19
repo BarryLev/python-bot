@@ -1,4 +1,5 @@
 import datetime as dt
+from telebot import types
 import kabachks as kab
 import asyncio
 
@@ -65,7 +66,8 @@ def get_time_to_next_birthday(name, message_id, bot):
   second_part_of_message = "До дня народження залишилось {days} {days_text}.".format(days = days_to_birthday, days_text = days_text)
 
   msg = ' '.join([first_part_of_message, second_part_of_message])
-  bot.send_message(message_id, msg)
+  remove_keyboard = types.ReplyKeyboardRemove()
+  bot.send_message(message_id, msg, reply_markup=remove_keyboard)
 
 # Send the congratulation message at a certain time
 async def wait_to_next_birthday_and_congratulate(message_chat_id, bot, sorted_kabachks):
