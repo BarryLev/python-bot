@@ -43,7 +43,7 @@ def send_message(message):
   global timer_pingall
   if is_working:
     if timer_pingall or message.from_user.id == my_id:
-      bot.send_message(message.chat.id, kab.inline_notify_add("КАБАЧКИ\n", True), "MarkdownV2")
+      bot.send_message(message.chat.id, kab.inline_notify_add("КАБАЧКИ\n"), "MarkdownV2")
       timer_pingall = False
       th.Timer(60, reset_timer_pingall).start()
     else:
