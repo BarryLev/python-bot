@@ -3,6 +3,8 @@ from telebot import types
 import kabachks as kab
 import asyncio
 
+sorted_kabachks = {}
+
 # Checks whether this datetime has passed
 def is_datetime_passed(this_datetime, additional_hours):
   if dt.datetime.now().month > this_datetime.month:
@@ -46,6 +48,8 @@ def get_word_with_correct_ending(number, word_array):
   if 2 <= number % 10 <= 4:
     return word_array[1]
 
+  return word_array[2]
+
 # Sends time to next birthday
 def send_time_to_next_birthday(name, message_id, bot):
   try:
@@ -63,7 +67,7 @@ def send_time_to_next_birthday(name, message_id, bot):
 
   days_text = get_word_with_correct_ending(days_to_birthday, ["день","дні","днів"])
 
-  second_part_of_message = "До дня народження залишилось {days} {days_text}.".format(days = days_to_birthday, days_text = days_text)
+  second_part_of_message = "До дня народження {days} {days_text}.".format(days = days_to_birthday, days_text = days_text)
 
   msg = ' '.join([first_part_of_message, second_part_of_message])
   remove_keyboard = types.ReplyKeyboardRemove()
@@ -89,5 +93,14 @@ async def wait_to_next_birthday_and_congratulate(message_chat_id, bot, sorted_ka
 
 # Send the scheduled congratulation message to the group
 def congratulations(message_chat_id, bot):
+  global sorted_kabachks
   sorted_kabachks = sorted(kab.kabachks.values(), key = sort_by_birthday)
   asyncio.run(wait_to_next_birthday_and_congratulate(message_chat_id, bot, sorted_kabachks))
+
+# Send time to closest birthday
+def send_closest_birthday(message_id, bot):
+  for kabachk in kab.kabachks:
+    if kab.kabachks[kabachk] == sorted_kabachks[0]:
+      name = kabachk
+      break
+  send_time_to_next_birthday(name, message_id, bot)

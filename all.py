@@ -70,6 +70,11 @@ def send_message(message):
     else:
       bot.send_message(message.chat.id, "Введена неправильна кількість аргументів")
 
+@bot.message_handler(commands=['closest'])
+def send_message(message):
+  if is_working:
+    brth.send_closest_birthday(message.chat.id, bot)
+
 # Resets the timer for "/pingall" command
 def reset_timer_pingall():
   global timer_pingall
