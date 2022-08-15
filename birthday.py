@@ -90,6 +90,7 @@ async def wait_to_next_birthday_and_congratulate(message_chat_id, bot, sorted_ka
                     "бота".format(tag = tag, years=years, years_text = years_text)
 
     bot.send_message(message_chat_id, kab.inline_notify_add(congratulate), "MarkdownV2")
+  wait_to_next_birthday_and_congratulate(message_chat_id, bot, sorted_kabachks)
 
 # Send the scheduled congratulation message to the group
 def congratulations(message_chat_id, bot):
